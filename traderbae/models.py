@@ -1,4 +1,7 @@
+import datetime
+
 from django.db import models
+from django.utils import timezone
 
 class User(models.Model):
 	name = models.CharField(max_length=30)
@@ -9,11 +12,15 @@ class User(models.Model):
 	password = models.CharField(max_length=16)
 	items = models.IntegerField(max_length=3, default=0)
 	photo = models.ImageField(upload_to='users')
-
+	def __string__(self):
+		return self.username
+	def new_user(self):
+		return self.account_created >= timezone.now() - datetime.timedelta(days=1)
 
 class Item(models.Model):
 	owner = models.ForeignKey(User)
 	brand = models.CharField(max_length=20)
+	date_added = models.DateTimeField('date added')
 	clothes_choices = (
 		('DR','Dresses'),
 		('TP','Tops'),
@@ -27,3 +34,9 @@ class Item(models.Model):
 	price = models.DecimalField(max_digits=5, decimal_places=2)
 	likes = models.IntegerField(default=0)
 	photo = models.ImageField(upload_to='items')
+	def __string__(self):
+		return self.article
+	def new_item(self):
+		return self.date_added >= timezone.now() - datetime.timedelta(days=2)
+	def hot_item(self):
+		return self.likes >= 5

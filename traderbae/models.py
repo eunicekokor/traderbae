@@ -20,20 +20,28 @@ class User(models.Model):
 class Item(models.Model):
 	owner = models.ForeignKey(User)
 	brand = models.CharField(max_length=20)
-	date_added = models.DateTimeField('date added')
+	date_added = models.DateTimeField(default=timezone.now())
+	DRESSES = 'DR'
+	TOPS = 'TP'
+	BOTTOMS = 'BM'
+	JEWELRY = 'J'
+	SHOES = 'SH'
+	BAGS = 'B'
+	OTHER = 'O'
 	clothes_choices = (
-		('DR','Dresses'),
-		('TP','Tops'),
-		('BM','Bottoms'),
-		('J','Jewelry'),
-		('SH','Shoes'),
-		('O', 'Other'),
+		(DRESSES,'Dresses'),
+		(TOPS,'Tops'),
+		(BOTTOMS,'Bottoms'),
+		(JEWELRY,'Jewelry'),
+		(SHOES,'Shoes'),
+		(BAGS, 'Bags'),
+		(OTHER, 'Other'),
 	)	
 	article = models.CharField(max_length=2, choices=clothes_choices)
 	color = models.CharField(max_length=10)
 	price = models.DecimalField(max_digits=5, decimal_places=2)
 	likes = models.IntegerField(default=0)
-	#photo = models.ImageField(upload_to='items')
+	photo = models.ImageField(upload_to='items',blank=True)
 	def __str__(self):
 		return '%s %s' % (self.brand, self.article)
 	def new_item(self):

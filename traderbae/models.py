@@ -7,10 +7,12 @@ class User(models.Model):
 	name = models.CharField(max_length=30)
 	username = models.CharField(max_length=18, help_text="This will be your name around the site.")
 	account_created = models.DateTimeField(default=timezone.now())
-	school = models.CharField(max_length=50, default='Columbia') 
+	school = models.CharField(max_length=50, default='Columbia')
 	email = models.CharField(max_length=30)
 	password = models.CharField(max_length=16)
 	items = models.IntegerField(max_length=3, default=0)
+#you should have a foreignkey refernce that counts the number of 
+#related objects!
 	photo = models.ImageField(upload_to='users')
 	def new_user(self):
 		return self.account_created >= timezone.now() - datetime.timedelta(days=1)
